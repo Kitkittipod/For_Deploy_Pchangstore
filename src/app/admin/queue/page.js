@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 
-export default function krapow() {
+export default function Krapow() {
   const [queues, setQueues] = useState([]);
   const [refresh, setRefresh] = useState(false);
 

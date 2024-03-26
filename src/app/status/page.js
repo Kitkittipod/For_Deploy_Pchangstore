@@ -3,7 +3,7 @@
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
-export default function status() {
+export default function Status() {
     const showQueue = () => {
         document.getElementById('queueModal').showModal();
       };

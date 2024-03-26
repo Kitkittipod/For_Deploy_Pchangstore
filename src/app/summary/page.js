@@ -8,7 +8,7 @@ import React, { useState } from "react";
 import QRCode from "qrcode.react";
 const generatePayload = require("promptpay-qr");
 
-export default function krapow() {
+export default function Krapow() {
   const showQueue = () => {
     document.getElementById("queueModal").showModal();
   };

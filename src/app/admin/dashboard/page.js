@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { SaleChart } from '@/app/components/sChart';
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 
-export default function dashboard() {
+export default function Dashboard() {
   const [todaySales, setTodaySales] = useState(0);
 
   useEffect(() => {
