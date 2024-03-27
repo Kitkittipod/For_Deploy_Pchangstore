@@ -8,7 +8,7 @@ export default function Control() {
   const [refresh, setRefresh] = useState(false)
 
   useEffect(() => {
-    fetch('http://localhost:3001/getOrder')
+    fetch(process.env.REACT_APP_BACKEND_URL + '/getOrder')
     .then((res) => res.json())
     .then((data) => setOrders(data))
   }, [refresh])
