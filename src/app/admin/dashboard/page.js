@@ -7,7 +7,7 @@ export default function Dashboard() {
   const [todaySales, setTodaySales] = useState(0);
 
   useEffect(() => {
-    fetch('http://localhost:3001/getTodaySales')
+    fetch(process.env.REACT_APP_BACKEND_URL + '/getTodaySales')
       .then((res) => res.json())
       .then((data) => setTodaySales(data));
   }, []);
