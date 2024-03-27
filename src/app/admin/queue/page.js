@@ -7,7 +7,7 @@ export default function Krapow() {
   const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
-    fetch('https://pstore-backendd.vercel.app/changeQueueStatus')
+    fetch('https://pstore-backendd.vercel.app/getQueue')
       .then((res) => res.json())
       .then((data) => setQueues(data));
     
