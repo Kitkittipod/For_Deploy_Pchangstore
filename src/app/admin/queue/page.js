@@ -7,7 +7,7 @@ export default function Krapow() {
   const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
-    fetch(process.env.REACT_APP_BACKEND_URL + '/changeQueueStatus')
+    fetch('https://your-backend.vercel.app/changeQueueStatus')
       .then((res) => res.json())
       .then((data) => setQueues(data));
     
