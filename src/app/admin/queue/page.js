@@ -7,7 +7,7 @@ export default function Krapow() {
   const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
-    fetch('https://your-backend.vercel.app/api/changeQueueStatus')
+    fetch('https://store-backend-ruddy.vercel.app/changeQueueStatus')
       .then((res) => res.json())
       .then((data) => setQueues(data));
     
@@ -33,7 +33,7 @@ export default function Krapow() {
       status: status
     }
     try{
-      const response = await fetch('https://your-backend.vercel.app/api/changeQueueStatus', {
+      const response = await fetch('https://store-backend-ruddy.vercel.app/changeQueueStatus', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(body)
