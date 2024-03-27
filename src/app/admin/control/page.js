@@ -8,10 +8,10 @@ export default function Control() {
   const [refresh, setRefresh] = useState(false)
 
   useEffect(() => {
-    fetch('https://your-backend.vercel.app:3001/getOrder')
+    fetch('https://your-backend.vercel.app/getOrder')
     .then((res) => res.json())
     .then((data) => setOrders(data))
-    fetch('https://your-backend.vercel.app:3001/getMenuAvailability')
+    fetch('https://your-backend.vercel.app/getMenuAvailability')
     .then((res) => res.json())
     .then((data) => setMenuData(data))
   }, [refresh])
