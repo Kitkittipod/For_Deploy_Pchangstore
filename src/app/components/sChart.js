@@ -42,7 +42,7 @@ export function SaleChart() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://localhost:3001/getMonthlySales');
+        const response = await fetch(process.env.REACT_APP_BACKEND_URL + '/getMonthlySales');
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }
