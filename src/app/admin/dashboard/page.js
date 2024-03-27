@@ -7,7 +7,7 @@ export default function Dashboard() {
   const [todaySales, setTodaySales] = useState(0);
 
   useEffect(() => {
-    fetch(process.env.REACT_APP_BACKEND_URL + '/getTodaySales')
+    fetch('https://your-backend.vercel.app/getTodaySales')
       .then((res) => res.json())
       .then((data) => setTodaySales(data));
   }, []);
