@@ -33,7 +33,7 @@ export default function Krapow() {
       status: status
     }
     try{
-      const response = await fetch(process.env.REACT_APP_BACKEND_URL + '/changeQueueStatus', {
+      const response = await fetch('https://your-backend.vercel.app/changeQueueStatus', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(body)
