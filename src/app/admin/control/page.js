@@ -75,7 +75,7 @@ export default function Control() {
     }
 
     try{
-      const response = await fetch('https://your-backend.vercel.app/changeStatus', {
+      const response = await fetch('https://your-backend.vercel.app/api/changeStatus', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(body),
