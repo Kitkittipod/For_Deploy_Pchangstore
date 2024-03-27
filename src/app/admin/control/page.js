@@ -1,11 +1,12 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 
-export default function Control() {
+export default function control() {
 
   // const [socket, setSocket] = useState(null);
   const [orders, setOrders] = useState([])
   const [refresh, setRefresh] = useState(false)
+  const [menuData, setMenuData] = useState([]);
 
   useEffect(() => {
     fetch('https://pstore-backendd.vercel.app/getOrder')
@@ -47,7 +48,7 @@ export default function Control() {
     </ul>
   );
 
-  const handleClick = async (orderId, uncheckFirst = false) => {
+  const handleOrder = async (orderId, uncheckFirst = false) => {
     const allInputs = document.querySelectorAll(`input[type="checkbox"][data-order-id="${orderId}"]`);
 
     if (uncheckFirst) {
@@ -70,6 +71,7 @@ export default function Control() {
     }
 
     const body = {
+      orderId: orderId,
       approvedOrders: checkedValues,
       rejectedOrders: uncheckedValues
     }
@@ -80,25 +82,40 @@ export default function Control() {
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(body),
       });
+
       if(response.ok){
         console.log('API response:', await response.json());
         setRefresh(!refresh)
-        // const updatedOrders = await fetch('http://localhost:3001/getOrder')
-        // .then((res) => res.json())
-        // .catch((error) => {
-        //   console.error('Error fetching updated orders:', error);
-        // })
-        // if(updatedOrders){
-        //   setOrders(updatedOrders)
-        // }
       } else {
         console.error('API error:', response.statusText);
       }
     } catch(error){
       console.error('API error:', error);
     }
-    
   };
+
+  const handleToggleAvailability = async (menuId, newAvailability) => {
+    try {
+      const response = await fetch('https://pstore-backendd.vercel.app/updateMenuAvailability', {
+        method: 'put',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ menu_id: menuId, availability: newAvailability}),
+      });
+      if (!response.ok) {
+        throw new Error('Failed to update menu availability')
+      }
+      setMenuData(prevMenuData => {
+        return prevMenuData.map(item => {
+          return item.menu_id === menuId ? { ...item, availability: newAvailability } : item;
+        })
+      })
+      console.log('Menu availability updated successfully');
+    } catch (error) {
+      console.error('Error toggling menu availability', error);
+    }
+  }
 
   return (
     <main className="flex flex-col bg-white">
@@ -213,8 +230,8 @@ export default function Control() {
                           <img className='w-auto h-7' src='/dropdown.svg'></img>
                         </button>
                         <ul tabIndex={0} className="dropdown-content z-[1] menu shadow bg-base-100 rounded-box w-36">
-                            <li><a onClick={() => handleClick(order.order_id)}>ยืนยัน</a></li>
-                            <li><a onClick={() => handleClick(order.order_id, true)}>ยกเลิก</a></li>
+                            <li><a onClick={() => handleOrder(order.order_id)}>ยืนยัน</a></li>
+                            <li><a onClick={() => handleOrder(order.order_id, true)}>ยกเลิก</a></li>
                         </ul>
                       </div>
                     </div>
@@ -230,100 +247,6 @@ export default function Control() {
                 </td>
               </tr>
             ))}
-            {/* row 1 */}
-            {/* <tr>
-              <th>1</th>
-              <td>กระเพรา หมู <br></br>ผัดผงกะหรี่ กุ้ง</td>
-              <td>ไข่ดาว 2 , พิเศษ 3 <br></br>ไข่ดาว 1 , พิเศษ 2</td>
-              <td>4</td>
-              <td className='flex justify-center'>
-                <div className='flex-col'>
-                <div className="dropdown dropdown-end">
-                  <button tabIndex={0} role="button" className="btn btn-sm justify-center text-white font-bold bg-black pr-1">
-                    <div className='flex items-center'>
-                    กำลังทำ 
-                    <img className='w-auto h-7 justify-end' src='/dropdown.svg'></img>
-                    </div>
-                  </button>
-                  <ul tabIndex={0} className="dropdown-content z-[1] menu shadow bg-base-100 rounded-box w-36">
-                      <li><a>ออเดอร์เสร็จ</a></li>
-                  </ul>
-                </div>
-                  <br></br>
-                  <div className="dropdown dropdown-end">
-                  <button tabIndex={0} role="button" className="btn btn-sm justify-center text-white font-bold bg-black pr-1">
-                    <div className='flex items-center'>
-                    กำลังทำ 
-                    <img className='w-auto h-7 justify-end' src='/dropdown.svg'></img>
-                    </div>
-                  </button>
-                  <ul tabIndex={0} className="dropdown-content z-[1] menu shadow bg-base-100 rounded-box w-36">
-                      <li><a>ออเดอร์เสร็จ</a></li>
-                  </ul>
-                </div>
-                </div>
-                <div className='flex'>
-                <div className="dropdown dropdown-end">
-                <button className="btn btn-sm text-white font-bold bg-black h-full py-2 px-0">
-                    <img className='w-auto h-7' src='/dropdown.svg'></img>
-                  </button>
-                  <ul tabIndex={0} className="dropdown-content z-[1] menu shadow bg-base-100 rounded-box w-36">
-                      <li><a>ออเดอร์เสร็จ</a></li>
-                  </ul>
-                </div>
-                </div>
-              </td>
-            </tr> */}
-
-            {/* row 2 */}
-            {/* <tr>
-              <th>2</th>
-              <td>ข้าวผัด หมูกรอบ</td>
-              <td>พิเศษ 2</td>
-              <td>3</td>
-              <td>
-              <div className="dropdown dropdown-end">
-              <button tabIndex={0} role="button" className="btn btn-sm justify-center text-white font-bold bg-green-600 pr-1">
-                    <div className='flex items-center'>
-                    เสร็จแล้ว 
-                    <img className='w-auto h-7 justify-end' src='/dropdown.svg'></img>
-                    </div>
-                  </button>
-                  <ul tabIndex={0} className="dropdown-content z-[1] menu shadow bg-base-100 rounded-box w-36">
-                      <li><a>ลบรายการ</a></li>
-                  </ul>
-                </div>
-              </td>
-            </tr> */}
-            {/* row 3 */}
-            {/* <tr>
-            <th>3</th>
-              <td>ข้าวผัด หมูกรอบ</td>
-              <td>พิเศษ 2</td>
-              <td>3</td>
-              <td><button className=" btn btn-sm text-blue-900 font-bold mr-2"> รอการชำระเงิน</button></td>
-            </tr> */}
-            {/* row 4 */}
-            {/* <tr>
-            <th>4</th>
-            <td>กระเพรา หมู <br></br>ผัดผงกะหรี่ กุ้ง</td>
-              <td>ไข่ดาว 2 , พิเศษ 3 <br></br>ไข่ดาว 1 , พิเศษ 2</td>
-              <td>3</td>
-              <td>
-                <div className="dropdown dropdown-end">
-                  <button tabIndex={0} role="button" className="btn btn-sm justify-center text-white font-bold bg-red-500 pr-1">
-                    <div className='flex items-center'>
-                    รอการยืนยัน 
-                    <img className='w-auto h-7 justify-end' src='/dropdown.svg'></img>
-                    </div>
-                  </button>
-                  <ul tabIndex={0} className="dropdown-content z-[1] menu shadow bg-base-100 rounded-box w-36">
-                      <li><a>ยืนยัน</a></li>
-                      <li><a>ยกเลิก</a></li>
-                  </ul>
-                </div>
-                </td>
-            </tr> */}
           </tbody>
         </table>
       </div>
@@ -396,78 +319,20 @@ export default function Control() {
           </form>
           <div className='flex px-4 pt-4'>
             <div className='flex flex-col mr-4'>
-            <h2 className='font-bold'>แก้ไขเมนู</h2>
+              <h2 className='font-bold'>แก้ไขเมนู</h2>
               <div className='grid grid-cols-3 gap-x-2 gap-y-2 mt-2'>
-                <div className='flex flex-row items-center'>
-                  <input type="checkbox" className="toggle toggle-xs toggle-error mr-2" />
-                  <p>กระเพรา</p>
-                </div>
-                <div className='flex flex-row items-center'>
-                  <input type="checkbox" className="toggle toggle-xs toggle-error mr-2" />
-                  <p>ข้าวผัด</p>
-                </div>
-                <div className='flex flex-row items-center'>
-                  <input type="checkbox" className="toggle toggle-xs toggle-error mr-2" />
-                  <p>ข้าวผัดแหนม</p>
-                </div>
-                <div className='flex flex-row items-center'>
-                  <input type="checkbox" className="toggle toggle-xs toggle-error mr-2" />
-                  <p>ผัดพริกเผา</p>
-                </div>
-                <div className='flex flex-row items-center'>
-                  <input type="checkbox" className="toggle toggle-xs toggle-error mr-2" />
-                  <p>ผัดพริกแกง</p>
-                </div>
-                <div className='flex flex-row items-center'>
-                  <input type="checkbox" className="toggle toggle-xs toggle-error mr-2" />
-                  <p>ผัดซีอิ๊ว</p>
-                </div>
-                <div className='flex flex-row items-center'>
-                  <input type="checkbox" className="toggle toggle-xs toggle-error mr-2" />
-                  <p>ผัดผงกะหรี่</p>
-                </div>
-                <div className='flex flex-row items-center'>
-                  <input type="checkbox" className="toggle toggle-xs toggle-error mr-2" />
-                  <p>มาม่าผัดไข่</p>
-                </div>
-                <div className='flex flex-row items-center'>
-                  <input type="checkbox" className="toggle toggle-xs toggle-error mr-2" />
-                  <p>มาม่าผัดขี้เมา</p>
-                </div>
-                <div className='flex flex-row items-center'>
-                  <input type="checkbox" className="toggle toggle-xs toggle-error mr-2" />
-                  <p>ผัดน้ำมันหอย</p>
-                </div>
-                <div className='flex flex-row items-center'>
-                  <input type="checkbox" className="toggle toggle-xs toggle-error mr-2" />
-                  <p>ผัดกระเทียม</p>
-                </div>
-                <div className='flex flex-row items-center'>
-                  <input type="checkbox" className="toggle toggle-xs toggle-error mr-2" />
-                  <p>ราดหน้า</p>
-                </div>
-                <div className='flex flex-row items-center'>
-                  <input type="checkbox" className="toggle toggle-xs toggle-error mr-2" />
-                  <p>กะเพราคลุกข้าว</p>
-                </div>
-                <div className='flex flex-row items-center'>
-                  <input type="checkbox" className="toggle toggle-xs toggle-error mr-2" />
-                  <p>สุกี้น้ำ/แห้ง</p>
-                </div>
-                <div className='flex flex-row items-center'>
-                  <input type="checkbox" className="toggle toggle-xs toggle-error mr-2" />
-                  <p>มักกะโรนีผัดซอส</p>
-                </div>
-                <div className='flex flex-row items-center'>
-                  <input type="checkbox" className="toggle toggle-xs toggle-error mr-2" />
-                  <p>สปาเก็ตตี้ราดซอส</p>
-                </div>
-                <div className='flex flex-row items-center'>
-                  <input type="checkbox" className="toggle toggle-xs toggle-error mr-2" />
-                  <p>ข้าวต้มทรงเครื่อง</p>
-                </div>
+                {menuData.map(menuItem => (
+                  <div key={menuItem.menu_id} className='flex flex-row items-center'>
+                    <input
+                      type="checkbox"
+                      className="toggle toggle-xs toggle-error mr-2"
+                      checked={menuItem.availability}
+                      onChange={() => handleToggleAvailability(menuItem.menu_id, event.target.checked)}
+                    />
+                    <p>{menuItem.menu_name}</p>
+                  </div>
+                ))}
               </div>
-            
             </div>
 
             <div className='flex flex-col'>
@@ -497,11 +362,9 @@ export default function Control() {
                   <input type="checkbox" className="toggle toggle-xs toggle-error mr-2" />
                   <p>ปลาหมึก</p>
                 </div>
-                
               </div>
             </div>
           </div>
-              
         </div>
       </dialog>
   </main>
