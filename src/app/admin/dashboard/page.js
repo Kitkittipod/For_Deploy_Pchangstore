@@ -7,7 +7,7 @@ export default function Dashboard() {
   const [todaySales, setTodaySales] = useState(0);
 
   useEffect(() => {
-    fetch('https://ps-tore-backend.vercel.app/getTodaySales')
+    fetch('https://pstore-backendd.vercel.app/getTodaySales')
       .then((res) => res.json())
       .then((data) => setTodaySales(data));
   }, []);
