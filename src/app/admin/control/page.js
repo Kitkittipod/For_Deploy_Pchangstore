@@ -8,10 +8,10 @@ export default function Control() {
   const [refresh, setRefresh] = useState(false)
 
   useEffect(() => {
-    fetch('https://your-backend.vercel.app/getOrder')
+    fetch(process.env.REACT_APP_BACKEND_URL + '/getOrder')
     .then((res) => res.json())
     .then((data) => setOrders(data))
-    fetch('https://your-backend.vercel.app/getMenuAvailability')
+    fetch(process.env.REACT_APP_BACKEND_URL + '/getMenuAvailability')
     .then((res) => res.json())
     .then((data) => setMenuData(data))
   }, [refresh])
@@ -75,7 +75,7 @@ export default function Control() {
     }
 
     try{
-      const response = await fetch('https://your-backend.vercel.app/changeStatus', {
+      const response = await fetch(process.env.REACT_APP_BACKEND_URL + '/changeStatus', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(body),
