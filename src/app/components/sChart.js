@@ -42,7 +42,7 @@ export function SaleChart() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('https://your-backend.vercel.app/getMonthlySales');
+        const response = await fetch('https://store-backend-ruddy.vercel.app/getMonthlySales');
         if (!response.ok) {
           throw new Error('Failed to fetch data');
         }
