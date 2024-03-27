@@ -33,7 +33,7 @@ export default function Krapow() {
       status: status
     }
     try{
-      const response = await fetch('http://localhost:3001/changeQueueStatus', {
+      const response = await fetch(process.env.REACT_APP_BACKEND_URL + '/changeQueueStatus', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(body)
