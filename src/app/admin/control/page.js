@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useState } from 'react'
 
-export default function control() {
+export default function Control() {
 
   // const [socket, setSocket] = useState(null);
   const [orders, setOrders] = useState([])
