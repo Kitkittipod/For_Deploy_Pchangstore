@@ -7,7 +7,7 @@ export default function Dashboard() {
   const [todaySales, setTodaySales] = useState(0);
 
   useEffect(() => {
-    fetch('https://your-backend.vercel.app/api/getTodaySales')
+    fetch('https://store-backend-ruddy.vercel.app/getTodaySales')
       .then((res) => res.json())
       .then((data) => setTodaySales(data));
   }, []);
