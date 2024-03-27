@@ -8,10 +8,10 @@ export default function Control() {
   const [refresh, setRefresh] = useState(false)
 
   useEffect(() => {
-    fetch('https://ps-tore-backend.vercel.app/getOrder')
+    fetch('https://pstore-backendd.vercel.app/getOrder')
     .then((res) => res.json())
     .then((data) => setOrders(data))
-    fetch('https://ps-tore-backend.vercel.app/getMenuAvailability')
+    fetch('https://pstore-backendd.vercel.app/getMenuAvailability')
     .then((res) => res.json())
     .then((data) => setMenuData(data))
   }, [refresh])
@@ -75,7 +75,7 @@ export default function Control() {
     }
 
     try{
-      const response = await fetch('https://ps-tore-backend.vercel.app/changeStatus', {
+      const response = await fetch('https://pstore-backendd.vercel.app/changeStatus', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(body),
